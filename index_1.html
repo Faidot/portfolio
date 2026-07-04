@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Faizan — Cloud Infrastructure & DevOps Engineer</title>
+<meta name="description" content="DevOps engineer in Lahore. Self-hosted GitLab on AWS for 200+ users at ~$70/month. Multi-cloud, CI/CD, LLMOps. Infrastructure that stays up — and bills that stay down.">
+<meta property="og:title" content="Muhammad Faizan — DevOps Console">
+<meta property="og:description" content="Skills as running services, projects as deployments, career as a log stream. Type `help` in the terminal.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23060A0F'/><text x='6' y='22' font-family='monospace' font-size='16' fill='%2322C47E'>$_</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060A0F;
+  --panel:#0B1118;
+  --panel2:#0E151E;
+  --line:#16202B;
+  --text:#E8EEF2;
+  --muted:#8B9AA7;
+  --faint:#5C6B78;
+  --blue:#3B5BF6;
+  --blue-soft:#6E8BFF;
+  --green:#22C47E;
+  --orange:#E8490F;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --body:'DM Sans',system-ui,-apple-system,sans-serif;
+  --disp:'Syne','Arial Black',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;
+  background-position:center top;
+}
+::selection{background:var(--blue);color:#fff}
+a{color:var(--blue-soft);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--blue-soft);outline-offset:3px;border-radius:2px}
+.wrap{max-width:940px;margin:0 auto;padding:0 24px}
+
+/* ---------- topbar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:10;
+  background:rgba(6,10,15,.86);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .wrap{display:flex;align-items:center;gap:16px;height:56px}
+.brand{font-family:var(--mono);font-size:13.5px;color:var(--text)}
+.brand .tld{color:var(--green)}
+.status-pill{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  border:1px solid var(--line);border-radius:99px;padding:4px 12px;
+  margin-left:auto;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none}
+.dot.pulse{animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,196,126,.45)}55%{box-shadow:0 0 0 6px rgba(34,196,126,0)}}
+.btn{
+  font-family:var(--mono);font-size:12.5px;font-weight:500;
+  color:#fff;background:var(--orange);
+  border:none;border-radius:6px;padding:9px 16px;cursor:pointer;
+  display:inline-block;
+}
+.btn:hover{filter:brightness(1.12);text-decoration:none}
+.topbar .btn{padding:7px 14px}
+
+/* ---------- hero ---------- */
+.hero{padding:88px 0 64px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12.5px;color:var(--faint);margin-bottom:20px}
+.eyebrow b{color:var(--green);font-weight:400}
+h1{
+  font-family:var(--disp);font-weight:800;
+  font-size:clamp(44px,8vw,84px);
+  line-height:.96;letter-spacing:-.01em;
+  text-transform:uppercase;
+}
+h1 .thin{color:var(--blue-soft)}
+.sub{font-family:var(--mono);font-size:14.5px;color:var(--muted);margin:20px 0 6px}
+.tag{font-size:18.5px;color:var(--text);max-width:560px;margin-bottom:36px}
+.tag em{color:var(--green);font-style:normal}
+
+/* ---------- terminal ---------- */
+.term{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.8);
+}
+.term-bar{
+  display:flex;align-items:center;gap:7px;
+  padding:11px 14px;border-bottom:1px solid var(--line);
+  background:var(--panel2);
+}
+.tdot{width:11px;height:11px;border-radius:50%}
+.tdot.r{background:#FF5F57}.tdot.y{background:#FEBC2E}.tdot.g{background:#28C840}
+.term-title{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-left:8px}
+.term-body{
+  font-family:var(--mono);font-size:13.5px;line-height:1.75;
+  padding:18px 18px 6px;min-height:210px;max-height:340px;overflow-y:auto;
+  white-space:pre-wrap;word-break:break-word;
+}
+.term-body .in{color:var(--text)}
+.term-body .in::before{content:"$ ";color:var(--green)}
+.term-body .out{color:var(--muted)}
+.term-body .ok{color:var(--green)}
+.term-body .warn{color:var(--orange)}
+.term-body .link{color:var(--blue-soft)}
+.term-input-row{display:flex;align-items:center;gap:10px;padding:6px 18px 16px}
+.prompt{font-family:var(--mono);color:var(--green);font-size:13.5px}
+#termInput{
+  flex:1;background:transparent;border:none;outline:none;
+  font-family:var(--mono);font-size:13.5px;color:var(--text);
+  caret-color:var(--green);
+}
+#termInput::placeholder{color:var(--faint)}
+.term-hint{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:14px}
+.term-hint code{color:var(--green)}
+
+/* ---------- sections ---------- */
+.section{padding:64px 0;border-bottom:1px solid var(--line)}
+.sec-label{
+  font-family:var(--mono);font-size:13px;font-weight:400;
+  color:var(--faint);margin-bottom:8px;
+}
+.sec-label b{color:var(--blue-soft);font-weight:400}
+.sec-title{
+  font-family:var(--disp);font-weight:700;font-size:26px;
+  text-transform:uppercase;letter-spacing:.01em;margin-bottom:28px;
+}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.svc{
+  background:var(--panel);padding:14px 16px;
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:13px;
+}
+.svc .name{color:var(--text)}
+.svc .st{margin-left:auto;font-size:11px;color:var(--green)}
+.svc .st.b{color:var(--blue-soft)}
+.svc .st.o{color:var(--orange)}
+.svc .dot.b{background:var(--blue-soft)}
+.svc .dot.o{background:var(--orange)}
+.svc-note{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:14px}
+
+/* deployments */
+.deploy{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:22px;margin-bottom:14px}
+.dep-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.dep-name{font-family:var(--mono);font-size:15px;color:var(--text)}
+.dep-name a{color:var(--text)}
+.dep-name a:hover{color:var(--blue-soft)}
+.badge{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;
+  padding:3px 9px;border-radius:99px;border:1px solid;
+}
+.badge.prod{color:var(--green);border-color:rgba(34,196,126,.35);background:rgba(34,196,126,.07)}
+.badge.stag{color:var(--orange);border-color:rgba(232,73,15,.4);background:rgba(232,73,15,.07)}
+.badge.live{color:var(--blue-soft);border-color:rgba(110,139,255,.4);background:rgba(110,139,255,.08)}
+.dep-hash{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-left:auto}
+.dep-desc{color:var(--muted);font-size:15px;max-width:640px}
+.dep-desc b{color:var(--text);font-weight:500}
+.dep-meta{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:12px}
+
+/* logs */
+.log{font-family:var(--mono);font-size:13px;line-height:2.1;overflow-x:auto}
+.log .row{display:flex;gap:14px;white-space:nowrap}
+.log .t{color:var(--faint);min-width:170px}
+.log .lvl{color:var(--green);min-width:44px}
+.log .lvl.d{color:var(--blue-soft)}
+.log .host{color:var(--blue-soft);min-width:150px}
+.log .msg{color:var(--muted)}
+.log .msg b{color:var(--text);font-weight:500}
+
+/* footer */
+footer{padding:56px 0 72px}
+.foot-links{display:flex;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:13.5px;margin-bottom:22px}
+.foot-note{font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+.foot-note .hl{color:var(--green)}
+
+@media(max-width:760px){
+  .services{grid-template-columns:1fr 1fr}
+  .hero{padding:64px 0 48px}
+  .log .row{white-space:normal;flex-wrap:wrap;gap:6px 14px;margin-bottom:10px}
+  .log .t,.log .host{min-width:0}
+}
+@media(max-width:480px){
+  .services{grid-template-columns:1fr}
+  .status-pill span.lbl{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .dot.pulse{animation:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand">faizan@cloud:<span class="tld">~$</span></span>
+    <span class="status-pill"><span class="dot pulse"></span><span class="lbl">all systems operational</span></span>
+    <a class="btn" href="mailto:faizan.brw.pk@gmail.com?subject=DevOps%20role%20—%20let%27s%20talk">hire --now</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">// lahore, pakistan · utc+05:00 · <b>open to devops & cloud roles</b></p>
+    <h1>Muhammad<br><span class="thin">Faizan</span></h1>
+    <p class="sub">cloud infrastructure & devops engineer</p>
+    <p class="tag">I build infrastructure that <em>stays up</em> — and cloud bills that stay down.</p>
+
+    <div class="term" id="term">
+      <div class="term-bar">
+        <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+        <span class="term-title">faizan@cloud: ~/portfolio — bash</span>
+      </div>
+      <div class="term-body" id="termBody" aria-live="polite"></div>
+      <div class="term-input-row">
+        <span class="prompt">$</span>
+        <input id="termInput" type="text" autocomplete="off" spellcheck="false" aria-label="terminal input" placeholder="booting…" disabled>
+      </div>
+    </div>
+    <p class="term-hint">type <code>help</code> — haan, yeh sach mein chalta hai · click to skip boot</p>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <p class="sec-label">$ systemctl status <b>--all</b></p>
+    <h2 class="sec-title">Services</h2>
+    <div class="services">
+      <div class="svc"><span class="dot pulse"></span><span class="name">aws.core</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot"></span><span class="name">azure.cloud</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot"></span><span class="name">gcp.compute</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot"></span><span class="name">docker.engine</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot"></span><span class="name">gitlab.ci</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot"></span><span class="name">github.actions</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot"></span><span class="name">linux.systems</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot"></span><span class="name">pfsense.firewall</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot"></span><span class="name">litellm.gateway</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot"></span><span class="name">n8n.automation</span><span class="st">running</span></div>
+      <div class="svc"><span class="dot b"></span><span class="name">terraform.iac</span><span class="st b">provisioning</span></div>
+      <div class="svc"><span class="dot o"></span><span class="name">k8s.cluster</span><span class="st o">deploying</span></div>
+    </div>
+    <p class="svc-note">// provisioning &amp; deploying = actively leveling up. honest status pages only.</p>
+  </div>
+</section>
+
+<section class="section" id="deployments">
+  <div class="wrap">
+    <p class="sec-label">$ git log <b>--deployments --oneline</b></p>
+    <h2 class="sec-title">Deployments</h2>
+
+    <article class="deploy">
+      <div class="dep-head"><span class="dep-name">gitlab-selfhosted</span><span class="badge prod">production</span><span class="dep-hash">#a3f9c1d</span></div>
+      <p class="dep-desc">Self-hosted GitLab on AWS for <b>200+ users</b> — custom domain, SSL, tuned down to <b>~$70/month</b> in billing. Proof that cost optimization is a skill, not a slogan.</p>
+      <p class="dep-meta">aws · ec2 · route53 · nginx · backups-to-s3</p>
+    </article>
+
+    <article class="deploy">
+      <div class="dep-head"><span class="dep-name">litellm-gateway</span><span class="badge prod">production</span><span class="dep-hash">#7e42b1f</span></div>
+      <p class="dep-desc">Central LLM gateway managing <b>API keys, usage budgets and model routing</b> across teams. One door for every model.</p>
+      <p class="dep-meta">litellm · docker · llmops · cost-controls</p>
+    </article>
+
+    <article class="deploy">
+      <div class="dep-head"><span class="dep-name">mcp-connectors</span><span class="badge prod">production</span><span class="dep-hash">#c91d3ae</span></div>
+      <p class="dep-desc">Custom <b>MCP servers</b> wiring internal tools and data into Claude — AI workflows that touch real systems.</p>
+      <p class="dep-meta">mcp · python · claude · ai-workflows</p>
+    </article>
+
+    <article class="deploy">
+      <div class="dep-head"><span class="dep-name"><a href="https://foliolume.com" target="_blank" rel="noopener">foliolume ↗</a></span><span class="badge live">live</span><span class="dep-hash">#5fd08b2</span></div>
+      <p class="dep-desc">SaaS portfolio builder with <b>AI resume auto-fill</b> and seven templates. Built it, shipped it, people use it.</p>
+      <p class="dep-meta">next.js · vercel · saas · side-project</p>
+    </article>
+
+    <article class="deploy">
+      <div class="dep-head"><span class="dep-name">bhatta-erp</span><span class="badge stag">staging</span><span class="dep-hash">#e2a664c</span></div>
+      <p class="dep-desc">Brick-kiln ERP for a Pakistani industrial client — <b>Urdu-first domain workflows</b>, from ledger to dispatch.</p>
+      <p class="dep-meta">django-rest · react · postgresql · client-work</p>
+    </article>
+  </div>
+</section>
+
+<section class="section" id="logs">
+  <div class="wrap">
+    <p class="sec-label">$ journalctl <b>--unit=career --reverse</b></p>
+    <h2 class="sec-title">Log stream</h2>
+    <div class="log">
+      <div class="row"><span class="t">[2025-10 → now]</span><span class="lvl">INFO</span><span class="host">terafort.lahore</span><span class="msg"><b>Cloud Infrastructure &amp; DevOps Engineer</b> — multi-cloud (aws·azure·gcp), gitlab admin, google workspace + dns, llmops</span></div>
+      <div class="row"><span class="t">[2025-05 → 2025-10]</span><span class="lvl">INFO</span><span class="host">hexaa.softhouse</span><span class="msg"><b>IT Support Executive</b> — devops exposure, n8n automation, agentic ai, git workflows</span></div>
+      <div class="row"><span class="t">[2023-03 → 2025-04]</span><span class="lvl">INFO</span><span class="host">fine-packages.ind</span><span class="msg"><b>IT Officer</b> — sole admin, designed the entire network from zero (mikrotik, windows server, cctv)</span></div>
+      <div class="row"><span class="t">[2027 expected]</span><span class="lvl d">DEBUG</span><span class="host">vu.edu.pk</span><span class="msg"><b>BBIT</b> — 7th semester, shipping code between assignments</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="mailto:faizan.brw.pk@gmail.com">email</a>
+      <a href="https://linkedin.com/in/faizan00" target="_blank" rel="noopener">linkedin</a>
+      <a href="https://github.com/faizan00" target="_blank" rel="noopener">github</a>
+    </div>
+    <p class="foot-note">© 2026 muhammad faizan · plain html/css/js — <span class="hl">zero frameworks, zero downtime</span> · deployed on vercel</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var body=document.getElementById('termBody');
+  var input=document.getElementById('termInput');
+  var term=document.getElementById('term');
+  var DAYS=Math.floor((Date.now()-new Date('2023-03-01'))/86400000).toLocaleString('en-US');
+  var UP='career up '+DAYS+' days · 3+ yrs · load: job + agency + degree · status: stable';
+
+  function line(cls,txt){var d=document.createElement('div');d.className=cls;d.textContent=txt;body.appendChild(d);body.scrollTop=body.scrollHeight;return d;}
+
+  var boot=[
+    ['in','whoami'],
+    ['out','muhammad-faizan · cloud infrastructure & devops engineer @ terafort, lahore'],
+    ['in','uptime'],
+    ['out',UP],
+    ['in','ls ~/stack'],
+    ['out','aws  azure  gcp  docker  gitlab-ci  github-actions  terraform  k8s  litellm'],
+    ['in','./hire --contact'],
+    ['link','→ faizan.brw.pk@gmail.com · linkedin.com/in/faizan00'],
+    ['ok','-- interactive mode enabled · type help --']
+  ];
+
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var skipped=false;
+  function skip(){skipped=true;}
+  term.addEventListener('click',skip,{once:true});
+
+  function enable(){
+    input.disabled=false;input.placeholder='type a command… (help)';
+    term.removeEventListener('click',skip);
+  }
+
+  function typeLine(i){
+    if(i>=boot.length){enable();return;}
+    var cls=boot[i][0],txt=boot[i][1];
+    if(reduced||skipped){
+      for(var j=i;j<boot.length;j++)line(boot[j][0],boot[j][1]);
+      enable();return;
+    }
+    if(cls!=='in'){line(cls,txt);setTimeout(function(){typeLine(i+1);},260);return;}
+    var el=line('in','');var k=0;
+    (function tick(){
+      if(skipped){el.textContent=txt;typeLine(i+1);return;}
+      el.textContent=txt.slice(0,++k);body.scrollTop=body.scrollHeight;
+      if(k<txt.length)setTimeout(tick,46);else setTimeout(function(){typeLine(i+1);},220);
+    })();
+  }
+  setTimeout(function(){typeLine(0);},500);
+
+  var cmds={
+    help:function(){line('out','commands: whoami · skills · projects · contact · uptime · cv · chai · sudo hire · clear');},
+    whoami:function(){line('out','muhammad-faizan · devops engineer · lahore, pk · builds things that stay up');},
+    skills:function(){line('out','aws · azure · gcp · docker · gitlab-ci · github-actions · linux · pfsense · litellm · n8n');line('out','terraform [provisioning] · kubernetes [deploying] — honest status only');},
+    projects:function(){
+      line('out','gitlab-selfhosted   200+ users on aws @ ~$70/mo');
+      line('out','litellm-gateway     llm api keys + budgets, one door');
+      line('out','mcp-connectors      internal tools wired into claude');
+      line('out','foliolume           saas portfolio builder (live)');
+      line('out','bhatta-erp          django+react erp for a kiln client');
+    },
+    contact:function(){line('link','faizan.brw.pk@gmail.com');line('link','linkedin.com/in/faizan00');},
+    uptime:function(){line('out',UP);},
+    cv:function(){line('out','full resume → linkedin.com/in/faizan00 (or run: sudo hire)');},
+    chai:function(){line('ok','chai > coffee. non-negotiable. fuel of pakistani devops ☕');},
+    ls:function(){line('out','skills/  deployments/  logs/  chai.txt');},
+    'cat chai.txt':function(){cmds.chai();},
+    hire:function(){line('ok','opening mail client…');setTimeout(function(){window.location.href='mailto:faizan.brw.pk@gmail.com?subject=DevOps%20role%20—%20let%27s%20talk';},500);},
+    'sudo hire':function(){line('ok','[sudo] permission granted. opening mail client…');setTimeout(function(){window.location.href='mailto:faizan.brw.pk@gmail.com?subject=DevOps%20role%20—%20let%27s%20talk';},600);},
+    clear:function(){body.innerHTML='';}
+  };
+
+  input.addEventListener('keydown',function(e){
+    if(e.key!=='Enter')return;
+    var raw=input.value.trim();input.value='';
+    if(!raw)return;
+    line('in',raw);
+    var c=raw.toLowerCase();
+    if(cmds[c]){cmds[c]();}
+    else if(c.indexOf('sudo')===0){line('warn',(c.split(' ')[1]||'user')+' is not in the sudoers file. this incident will be reported 😄');}
+    else{line('out','command not found: '+c+' · try help');}
+    body.scrollTop=body.scrollHeight;
+  });
+})();
+</script>
+</body>
+</html>
